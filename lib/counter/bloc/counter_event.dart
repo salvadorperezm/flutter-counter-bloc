@@ -5,10 +5,6 @@ sealed class CounterEvent {
   const CounterEvent();
 }
 
-final class CounterStarted extends CounterEvent {
-  const CounterStarted();
-}
-
 final class IncrementCounterPressed extends CounterEvent {
   const IncrementCounterPressed();
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:flutter_bloc_counter/counter/bloc/counter_bloc.dart';
 
 void main() => runApp(const CounterPage());
 
@@ -7,10 +10,13 @@ class CounterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Material App',
       debugShowCheckedModeBanner: false,
-      home: CounterView(),
+      home: BlocProvider(
+        create: (_) => CounterBloc(),
+        child: const CounterView(),
+      ),
     );
   }
 }
@@ -29,21 +35,34 @@ class CounterView extends StatelessWidget {
         actions: [
           IconButton(
             splashRadius: 1,
-            onPressed: () {},
+            onPressed: () =>
+                context.read<CounterBloc>().add(const ResetCounterPressed()),
             icon: const Icon(Icons.restore),
           )
         ],
       ),
       body: Center(
-        child: Text('0', style: Theme.of(context).textTheme.displayLarge),
+        child: BlocBuilder<CounterBloc, CounterState>(
+          builder: (context, state) {
+            return Text('${state.counter}',
+                style: Theme.of(context).textTheme.displayLarge);
+          },
+        ),
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add)),
+          FloatingActionButton(
+              onPressed: () => context
+                  .read<CounterBloc>()
+                  .add(const IncrementCounterPressed()),
+              child: const Icon(Icons.add)),
           const SizedBox(height: 20),
           FloatingActionButton(
-              onPressed: () {}, child: const Icon(Icons.remove)),
+              onPressed: () => context
+                  .read<CounterBloc>()
+                  .add(const DecrementCounterPressed()),
+              child: const Icon(Icons.remove)),
         ],
       ),
     );

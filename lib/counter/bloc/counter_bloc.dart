@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 part 'counter_event.dart';
@@ -8,16 +9,9 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
   static const int _counter = 0;
 
   CounterBloc() : super(const CounterInitial(counter: _counter)) {
-    on<CounterEvent>((event, emit) {
-      on<CounterStarted>(_onStarted);
-      on<IncrementCounterPressed>(_onIncremented);
-      on<DecrementCounterPressed>(_onDecremented);
-      on<ResetCounterPressed>(_onReset);
-    });
-  }
-
-  void _onStarted(CounterStarted event, Emitter<CounterState> emit) {
-    emit(const CounterInitial(counter: _counter));
+    on<IncrementCounterPressed>(_onIncremented);
+    on<DecrementCounterPressed>(_onDecremented);
+    on<ResetCounterPressed>(_onReset);
   }
 
   void _onIncremented(
@@ -31,6 +25,6 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
   }
 
   void _onReset(ResetCounterPressed event, Emitter<CounterState> emit) {
-    emit(const ResetCounter(counter: _counter));
+    emit(const ResetCounter());
   }
 }
