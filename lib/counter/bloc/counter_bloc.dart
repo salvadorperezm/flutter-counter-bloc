@@ -8,7 +8,7 @@ part 'counter_state.dart';
 class CounterBloc extends Bloc<CounterEvent, CounterState> {
   static const int _counter = 0;
 
-  CounterBloc() : super(const CounterInitial(counter: _counter)) {
+  CounterBloc() : super(const CounterState(counter: _counter)) {
     on<IncrementCounterPressed>(_onIncremented);
     on<DecrementCounterPressed>(_onDecremented);
     on<ResetCounterPressed>(_onReset);
@@ -16,15 +16,15 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
 
   void _onIncremented(
       IncrementCounterPressed event, Emitter<CounterState> emit) {
-    emit(IncrementCounter(counter: state.counter + 1));
+    emit(CounterState(counter: state.counter + 1));
   }
 
   void _onDecremented(
       DecrementCounterPressed event, Emitter<CounterState> emit) {
-    emit(DecrementCounter(counter: state.counter - 1));
+    emit(CounterState(counter: state.counter - 1));
   }
 
   void _onReset(ResetCounterPressed event, Emitter<CounterState> emit) {
-    emit(const ResetCounter());
+    emit(const CounterState(counter: _counter));
   }
 }
